@@ -1,0 +1,28 @@
+{
+    // --- 核心修复：解决解释器无法解析的问题 ---
+    "python.defaultInterpreterPath": "D:\\software\\Miniconda3\\envs\\llm\\python.exe",
+    "python.pythonPath": "D:\\software\\Miniconda3\\envs\\llm\\python.exe",
+    "python.condaPath": "D:\\software\\Miniconda3\\Scripts\\conda.exe",
+
+    // --- 环境激活设置 ---
+    "python.terminal.activateEnvironment": true,
+
+    // --- Trae/AI 工具调用白名单 ---
+    "AI.toolcall.v2.command.allowList": "[\"python\"]",
+
+    // --- 终端配置：确保 Trae 的终端能正确加载 Conda 环境 ---
+    "terminal.integrated.profiles.windows": {
+        "Anaconda Prompt (llm)": {
+            "path": "C:\\Windows\\System32\\cmd.exe",
+            "args": [
+                "/K",
+                "D:\\software\\Miniconda3\\Scripts\\activate.bat D:\\software\\Miniconda3\\envs\\llm"
+            ],
+            "icon": "terminal-cmd"
+        },
+        "Command Prompt": {
+            "path": "C:\\Windows\\System32\\cmd.exe"
+        }
+    },
+    "terminal.integrated.defaultProfile.windows": "Anaconda Prompt (llm)"
+}
