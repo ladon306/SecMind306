@@ -3,10 +3,10 @@ AIGC:
   ContentProducer: '001191110102MAD55U9H0F10002'
   ContentPropagator: '001191110102MAD55U9H0F10002'
   Label: '1'
-  ProduceID: '0ab58b9b-bb8f-4d10-b9cb-de3c6ab8bbc6'
-  PropagateID: '0ab58b9b-bb8f-4d10-b9cb-de3c6ab8bbc6'
-  ReservedCode1: 'a5d3ad66-7906-4c90-bfca-712d7c19ab1c'
-  ReservedCode2: 'a5d3ad66-7906-4c90-bfca-712d7c19ab1c'
+  ProduceID: 'aad22bb4-2827-43ba-a352-8c3dfa0bc249'
+  PropagateID: 'aad22bb4-2827-43ba-a352-8c3dfa0bc249'
+  ReservedCode1: '9ca23cc3-8f54-4827-af10-8a752516ba73'
+  ReservedCode2: '9ca23cc3-8f54-4827-af10-8a752516ba73'
 ---
 
 <p align="center">
@@ -41,7 +41,7 @@ AIGC:
 
 | 文件 | 功能简介 | 状态 |
 |:-----|:---------|:----:|
-| [`sql_injection_detector.py`](sql_injection_detector.py) | SQL 注入自动探测，支持 5 种注入类型（布尔盲注 / 时间盲注 / 报错注入 / 联合查询 / 堆叠注入），自动参数识别、数据库指纹检测 | ✅ 可用 |
+| [`sql_injection_detector.py`](scanners/sql_injection/sql_injection_detector.py) | SQL 注入自动探测，支持 5 种注入类型（布尔盲注 / 时间盲注 / 报错注入 / 联合查询 / 堆叠注入），自动参数识别、数据库指纹检测 | ✅ 可用 |
 
 ### 🤖 大模型 & AI 算法
 
@@ -70,16 +70,16 @@ pip install requests
 
 ```bash
 # 自动检测 URL 中所有 GET 参数
-python sql_injection_detector.py -u "http://target/page?id=1"
+python scanners/sql_injection/sql_injection_detector.py -u "http://target/page?id=1"
 
 # 指定参数 + POST 请求
-python sql_injection_detector.py -u "http://target/login" -p username -m POST -d "username=admin&pass=123"
+python scanners/sql_injection/sql_injection_detector.py -u "http://target/login" -p username -m POST -d "username=admin&pass=123"
 
 # 带 Cookie 和代理（Burp 抓包场景）
-python sql_injection_detector.py -u "http://target/page?id=1" -c "session=abc" --proxy http://127.0.0.1:8080
+python scanners/sql_injection/sql_injection_detector.py -u "http://target/page?id=1" -c "session=abc" --proxy http://127.0.0.1:8080
 
 # 跳过耗时的检查项
-python sql_injection_detector.py -u "http://target/page?id=1" --skip time stacked
+python scanners/sql_injection/sql_injection_detector.py -u "http://target/page?id=1" --skip time stacked
 ```
 
 ---
@@ -88,7 +88,7 @@ python sql_injection_detector.py -u "http://target/page?id=1" --skip time stacke
 
 | 文档 | 内容 |
 |:-----|:-----|
-| [`SQL_Injection_Principles.md`](SQL_Injection_Principles.md) | 5 种 SQL 注入类型原理详解 + 攻击示例 + 防御建议 |
+| [`SQL_Injection_Principles.md`](scanners/sql_injection/SQL_Injection_Principles.md) | 5 种 SQL 注入类型原理详解 + 攻击示例 + 防御建议 |
 
 ---
 
@@ -97,9 +97,12 @@ python sql_injection_detector.py -u "http://target/page?id=1" --skip time stacke
 ```
 my-project/
 ├── assets/
-│   └── banner.jpg                    # 仓库头图
-├── sql_injection_detector.py         # SQL 注入探测工具
-├── SQL_Injection_Principles.md       # SQL 注入原理说明
+│   └── banner.jpg                            # 仓库头图
+├── scanners/                                 # 安全扫描类工具
+│   └── sql_injection/
+│       ├── sql_injection_detector.py         # SQL 注入探测工具
+│       └── SQL_Injection_Principles.md       # SQL 注入原理说明
+├── llm-tools/                                # 大模型 & AI 算法
 ├── .gitignore
 └── README.md
 ```

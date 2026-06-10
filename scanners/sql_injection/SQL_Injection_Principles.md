@@ -3,10 +3,10 @@ AIGC:
   ContentProducer: '001191110102MAD55U9H0F10002'
   ContentPropagator: '001191110102MAD55U9H0F10002'
   Label: '1'
-  ProduceID: '187aa377-555c-4cd2-805f-2defc5946b15'
-  PropagateID: '187aa377-555c-4cd2-805f-2defc5946b15'
-  ReservedCode1: '91132a34-c39d-4589-9658-64a7834bc7fb'
-  ReservedCode2: '91132a34-c39d-4589-9658-64a7834bc7fb'
+  ProduceID: 'f55e62e8-d9d9-445d-8cce-e25662235bb3'
+  PropagateID: 'f55e62e8-d9d9-445d-8cce-e25662235bb3'
+  ReservedCode1: 'b172ca49-c2aa-47ef-83d1-cf3ae3ae2d22'
+  ReservedCode2: 'b172ca49-c2aa-47ef-83d1-cf3ae3ae2d22'
 ---
 
 # SQL 注入探测工具 - 原理说明
