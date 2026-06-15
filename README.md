@@ -3,10 +3,10 @@ AIGC:
   ContentProducer: '001191110102MAD55U9H0F10002'
   ContentPropagator: '001191110102MAD55U9H0F10002'
   Label: '1'
-  ProduceID: 'aad22bb4-2827-43ba-a352-8c3dfa0bc249'
-  PropagateID: 'aad22bb4-2827-43ba-a352-8c3dfa0bc249'
-  ReservedCode1: '9ca23cc3-8f54-4827-af10-8a752516ba73'
-  ReservedCode2: '9ca23cc3-8f54-4827-af10-8a752516ba73'
+  ProduceID: '49cad6ed-004d-4429-a255-755ff7b9e895'
+  PropagateID: '49cad6ed-004d-4429-a255-755ff7b9e895'
+  ReservedCode1: '72489f4b-7245-4d0f-bbf9-68d8a2c267a6'
+  ReservedCode2: '72489f4b-7245-4d0f-bbf9-68d8a2c267a6'
 ---
 
 <p align="center">
@@ -47,7 +47,7 @@ AIGC:
 
 | 文件 | 功能简介 | 状态 |
 |:-----|:---------|:----:|
-| *持续添加中...* | | |
+| [`cross_attention.py`](llm-tools/attention/cross_attention.py) | 交叉注意力机制实现（缩放点积注意力 / 单头 / 多头），支持 mask，含残差连接 + LayerNorm | ✅ 可用 |
 
 ---
 
@@ -61,7 +61,7 @@ AIGC:
 ### 安装依赖
 
 ```bash
-pip install requests
+pip install requests torch
 ```
 
 ### 使用示例
@@ -82,6 +82,16 @@ python scanners/sql_injection/sql_injection_detector.py -u "http://target/page?i
 python scanners/sql_injection/sql_injection_detector.py -u "http://target/page?id=1" --skip time stacked
 ```
 
+**交叉注意力：**
+
+```bash
+# 运行示例（单头/多头/mask 三种场景）
+python llm-tools/attention/cross_attention.py
+
+# 性能基准测试
+python llm-tools/attention/cross_attention.py --benchmark
+```
+
 ---
 
 ## 📖 原理文档
@@ -89,6 +99,7 @@ python scanners/sql_injection/sql_injection_detector.py -u "http://target/page?i
 | 文档 | 内容 |
 |:-----|:-----|
 | [`SQL_Injection_Principles.md`](scanners/sql_injection/SQL_Injection_Principles.md) | 5 种 SQL 注入类型原理详解 + 攻击示例 + 防御建议 |
+| [`Cross_Attention_Principles.md`](llm-tools/attention/Cross_Attention_Principles.md) | 交叉注意力公式推导 + 计算流程 + 典型应用场景 |
 
 ---
 
@@ -103,6 +114,9 @@ my-project/
 │       ├── sql_injection_detector.py         # SQL 注入探测工具
 │       └── SQL_Injection_Principles.md       # SQL 注入原理说明
 ├── llm-tools/                                # 大模型 & AI 算法
+│   └── attention/
+│       ├── cross_attention.py                # 交叉注意力实现
+│       └── Cross_Attention_Principles.md     # 交叉注意力原理说明
 ├── .gitignore
 └── README.md
 ```

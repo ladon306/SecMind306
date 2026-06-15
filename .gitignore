@@ -1,4 +1,4 @@
-﻿__pycache__/
+__pycache__/
 *.pyc
 *.pyo
 .pytest_cache/
@@ -6,3 +6,9 @@
 dist/
 build/
 .env
+
+# SIP安全报告（本地数据，不上传）
+reports/
+sip_alert_analyzer.py
+sip_dashboard.py
+sip_html_report.py
