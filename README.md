@@ -3,10 +3,10 @@ AIGC:
   ContentProducer: '001191110102MAD55U9H0F10002'
   ContentPropagator: '001191110102MAD55U9H0F10002'
   Label: '1'
-  ProduceID: '49cad6ed-004d-4429-a255-755ff7b9e895'
-  PropagateID: '49cad6ed-004d-4429-a255-755ff7b9e895'
-  ReservedCode1: '72489f4b-7245-4d0f-bbf9-68d8a2c267a6'
-  ReservedCode2: '72489f4b-7245-4d0f-bbf9-68d8a2c267a6'
+  ProduceID: 'fe83a709-28ab-42b4-a2a7-a57f2a3c910c'
+  PropagateID: 'fe83a709-28ab-42b4-a2a7-a57f2a3c910c'
+  ReservedCode1: '2fc826fa-7826-4237-9312-d7869674870a'
+  ReservedCode2: '2fc826fa-7826-4237-9312-d7869674870a'
 ---
 
 <p align="center">
@@ -42,6 +42,7 @@ AIGC:
 | 文件 | 功能简介 | 状态 |
 |:-----|:---------|:----:|
 | [`sql_injection_detector.py`](scanners/sql_injection/sql_injection_detector.py) | SQL 注入自动探测，支持 5 种注入类型（布尔盲注 / 时间盲注 / 报错注入 / 联合查询 / 堆叠注入），自动参数识别、数据库指纹检测 | ✅ 可用 |
+| [`xss_scanner.py`](scanners/xss/xss_scanner.py) | XSS 智能扫描，上下文感知 + 过滤器指纹 + Payload 分级（100+在野payload），并发可控，非无脑遍历 | ✅ 可用 |
 
 ### 🤖 大模型 & AI 算法
 
@@ -82,6 +83,25 @@ python scanners/sql_injection/sql_injection_detector.py -u "http://target/page?i
 python scanners/sql_injection/sql_injection_detector.py -u "http://target/page?id=1" --skip time stacked
 ```
 
+**XSS 智能扫描：**
+
+```bash
+# 基础扫描（智能筛选 + L0/L1 payload）
+python scanners/xss/xss_scanner.py -u "http://target/search?q=test"
+
+# POST 参数扫描
+python scanners/xss/xss_scanner.py -u "http://target/search" -p q -m POST -d "q=test"
+
+# 带 Cookie 和代理
+python scanners/xss/xss_scanner.py -u "http://target/search?q=test" -c "session=abc" --proxy http://127.0.0.1:8080
+
+# 全量遍历（跳过智能筛选，所有payload都测）
+python scanners/xss/xss_scanner.py -u "http://target/search?q=test" --fuzz-all
+
+# 仅测核心payload（最快）
+python scanners/xss/xss_scanner.py -u "http://target/search?q=test" --max-level 0
+```
+
 **交叉注意力：**
 
 ```bash
@@ -100,6 +120,7 @@ python llm-tools/attention/cross_attention.py --benchmark
 |:-----|:-----|
 | [`SQL_Injection_Principles.md`](scanners/sql_injection/SQL_Injection_Principles.md) | 5 种 SQL 注入类型原理详解 + 攻击示例 + 防御建议 |
 | [`Cross_Attention_Principles.md`](llm-tools/attention/Cross_Attention_Principles.md) | 交叉注意力公式推导 + 计算流程 + 典型应用场景 |
+| [`XSS_Scanner_Principles.md`](scanners/xss/XSS_Scanner_Principles.md) | XSS 三种类型 + 上下文感知原理 + 在野 Payload + WAF 绕过技巧 |
 
 ---
 
@@ -110,9 +131,12 @@ my-project/
 ├── assets/
 │   └── banner.jpg                            # 仓库头图
 ├── scanners/                                 # 安全扫描类工具
-│   └── sql_injection/
-│       ├── sql_injection_detector.py         # SQL 注入探测工具
-│       └── SQL_Injection_Principles.md       # SQL 注入原理说明
+│   ├── sql_injection/
+│   │   ├── sql_injection_detector.py         # SQL 注入探测工具
+│   │   └── SQL_Injection_Principles.md       # SQL 注入原理说明
+│   └── xss/
+│       ├── xss_scanner.py                   # XSS 智能扫描工具
+│       └── XSS_Scanner_Principles.md         # XSS 扫描原理说明
 ├── llm-tools/                                # 大模型 & AI 算法
 │   └── attention/
 │       ├── cross_attention.py                # 交叉注意力实现
