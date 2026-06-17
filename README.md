@@ -3,10 +3,10 @@ AIGC:
   ContentProducer: '001191110102MAD55U9H0F10002'
   ContentPropagator: '001191110102MAD55U9H0F10002'
   Label: '1'
-  ProduceID: 'fe83a709-28ab-42b4-a2a7-a57f2a3c910c'
-  PropagateID: 'fe83a709-28ab-42b4-a2a7-a57f2a3c910c'
-  ReservedCode1: '2fc826fa-7826-4237-9312-d7869674870a'
-  ReservedCode2: '2fc826fa-7826-4237-9312-d7869674870a'
+  ProduceID: '29ed61e0-c2c4-41da-b0bc-7bea0a23684b'
+  PropagateID: '29ed61e0-c2c4-41da-b0bc-7bea0a23684b'
+  ReservedCode1: 'd9dba8c6-fb5f-45dd-8680-c0fe3fecbc10'
+  ReservedCode2: 'd9dba8c6-fb5f-45dd-8680-c0fe3fecbc10'
 ---
 
 <p align="center">
@@ -43,6 +43,7 @@ AIGC:
 |:-----|:---------|:----:|
 | [`sql_injection_detector.py`](scanners/sql_injection/sql_injection_detector.py) | SQL 注入自动探测，支持 5 种注入类型（布尔盲注 / 时间盲注 / 报错注入 / 联合查询 / 堆叠注入），自动参数识别、数据库指纹检测 | ✅ 可用 |
 | [`xss_scanner.py`](scanners/xss/xss_scanner.py) | XSS 智能扫描，上下文感知 + 过滤器指纹 + Payload 分级（100+在野payload），并发可控，非无脑遍历 | ✅ 可用 |
+| [`dir_scanner.py`](scanners/dir_scanner/dir_scanner.py) | 智能目录扫描，404 递归 + 自定义 404 检测 + 7 类分类字典（OA/CMS/框架/中间件/敏感/API） + 后缀扩展 | ✅ 可用 |
 
 ### 🤖 大模型 & AI 算法
 
@@ -112,6 +113,25 @@ python llm-tools/attention/cross_attention.py
 python llm-tools/attention/cross_attention.py --benchmark
 ```
 
+**目录扫描：**
+
+```bash
+# 基础扫描（默认 common 字典）
+python scanners/dir_scanner/dir_scanner.py -u http://target.com
+
+# 加载 OA + CMS 字典，20线程，递归3层
+python scanners/dir_scanner/dir_scanner.py -u http://target.com --dict oa,cms -t 20 -r 3
+
+# 全部字典
+python scanners/dir_scanner/dir_scanner.py -u http://target.com --dict all
+
+# 自定义字典 + 结果导出
+python scanners/dir_scanner/dir_scanner.py -u http://target.com -w my_dict.txt -o results.txt
+
+# 禁用递归 + 不追加后缀
+python scanners/dir_scanner/dir_scanner.py -u http://target.com --no-recursive --no-ext
+```
+
 ---
 
 ## 📖 原理文档
@@ -121,22 +141,34 @@ python llm-tools/attention/cross_attention.py --benchmark
 | [`SQL_Injection_Principles.md`](scanners/sql_injection/SQL_Injection_Principles.md) | 5 种 SQL 注入类型原理详解 + 攻击示例 + 防御建议 |
 | [`Cross_Attention_Principles.md`](llm-tools/attention/Cross_Attention_Principles.md) | 交叉注意力公式推导 + 计算流程 + 典型应用场景 |
 | [`XSS_Scanner_Principles.md`](scanners/xss/XSS_Scanner_Principles.md) | XSS 三种类型 + 上下文感知原理 + 在野 Payload + WAF 绕过技巧 |
+| [`DirScanner_Principles.md`](scanners/dir_scanner/DirScanner_Principles.md) | 递归扫描策略 + 自定义 404 检测 + 分类字典设计 + 工具对比 |
 
 ---
 
 ## 🗂️ 项目结构
 
 ```
-my-project/
+SecMind306/
 ├── assets/
 │   └── banner.jpg                            # 仓库头图
 ├── scanners/                                 # 安全扫描类工具
 │   ├── sql_injection/
 │   │   ├── sql_injection_detector.py         # SQL 注入探测工具
 │   │   └── SQL_Injection_Principles.md       # SQL 注入原理说明
-│   └── xss/
-│       ├── xss_scanner.py                   # XSS 智能扫描工具
-│       └── XSS_Scanner_Principles.md         # XSS 扫描原理说明
+│   ├── xss/
+│   │   ├── xss_scanner.py                   # XSS 智能扫描工具
+│   │   └── XSS_Scanner_Principles.md         # XSS 扫描原理说明
+│   └── dir_scanner/
+│       ├── dir_scanner.py                   # 目录扫描工具
+│       ├── DirScanner_Principles.md         # 目录扫描原理说明
+│       └── wordlists/                       # 分类字典
+│           ├── common.txt                   # 通用目录
+│           ├── oa.txt                       # OA 系统
+│           ├── cms.txt                      # CMS 系统
+│           ├── framework.txt                # 开发框架
+│           ├── middleware.txt               # 中间件
+│           ├── sensitive.txt                # 敏感文件
+│           └── api.txt                      # API 接口
 ├── llm-tools/                                # 大模型 & AI 算法
 │   └── attention/
 │       ├── cross_attention.py                # 交叉注意力实现
