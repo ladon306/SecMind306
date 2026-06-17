@@ -3,10 +3,10 @@ AIGC:
   ContentProducer: '001191110102MAD55U9H0F10002'
   ContentPropagator: '001191110102MAD55U9H0F10002'
   Label: '1'
-  ProduceID: '312a5e02-7b11-4dd6-8d37-2f68cea6c1b7'
-  PropagateID: '312a5e02-7b11-4dd6-8d37-2f68cea6c1b7'
-  ReservedCode1: 'fed08ad0-68b3-40c4-badd-cd275b75f392'
-  ReservedCode2: 'fed08ad0-68b3-40c4-badd-cd275b75f392'
+  ProduceID: 'b349d464-827b-4214-8e05-0630768575dd'
+  PropagateID: 'b349d464-827b-4214-8e05-0630768575dd'
+  ReservedCode1: '2415bbce-c532-4deb-97f1-0499dedcc7a0'
+  ReservedCode2: '2415bbce-c532-4deb-97f1-0499dedcc7a0'
 ---
 
 <p align="center">
@@ -75,6 +75,8 @@ pip install requests torch dnspython
 
 ### 使用示例
 
+#### 🔫 安全扫描工具
+
 **SQL 注入探测：**
 
 ```bash
@@ -105,19 +107,6 @@ python scanners/xss/xss_scanner.py -u "http://target/search?q=test" -c "session=
 
 # 全量遍历（跳过智能筛选，所有payload都测）
 python scanners/xss/xss_scanner.py -u "http://target/search?q=test" --fuzz-all
-
-# 仅测核心payload（最快）
-python scanners/xss/xss_scanner.py -u "http://target/search?q=test" --max-level 0
-```
-
-**交叉注意力：**
-
-```bash
-# 运行示例（单头/多头/mask 三种场景）
-python llm-tools/attention/cross_attention.py
-
-# 性能基准测试
-python llm-tools/attention/cross_attention.py --benchmark
 ```
 
 **目录扫描：**
@@ -128,9 +117,6 @@ python scanners/dir_scanner/dir_scanner.py -u http://target.com
 
 # 加载 OA + CMS 字典，20线程，递归3层
 python scanners/dir_scanner/dir_scanner.py -u http://target.com --dict oa,cms -t 20 -r 3
-
-# 全部字典
-python scanners/dir_scanner/dir_scanner.py -u http://target.com --dict all
 
 # 自定义字典 + 结果导出
 python scanners/dir_scanner/dir_scanner.py -u http://target.com -w my_dict.txt -o results.txt
@@ -166,6 +152,18 @@ python scanners/port_scanner/port_scanner.py -t 192.168.1.1 --scan-type syn -T 5
 
 # 全端口扫描 + CSV 导出
 python scanners/port_scanner/port_scanner.py -t 192.168.1.1 -p full -o results.csv --format csv
+```
+
+#### 🤖 大模型 & AI 算法
+
+**交叉注意力：**
+
+```bash
+# 运行示例（单头/多头/mask 三种场景）
+python llm-tools/attention/cross_attention.py
+
+# 性能基准测试
+python llm-tools/attention/cross_attention.py --benchmark
 ```
 
 **自注意力 / 多头注意力：**
@@ -210,14 +208,21 @@ python llm-tools/rnn/lstm.py --benchmark
 
 ## 📖 原理文档
 
+### 🔫 安全扫描原理
+
 | 文档 | 内容 |
 |:-----|:-----|
 | [`SQL_Injection_Principles.md`](scanners/sql_injection/SQL_Injection_Principles.md) | 5 种 SQL 注入类型原理详解 + 攻击示例 + 防御建议 |
-| [`Cross_Attention_Principles.md`](llm-tools/attention/Cross_Attention_Principles.md) | 交叉注意力公式推导 + 计算流程 + 典型应用场景 |
 | [`XSS_Scanner_Principles.md`](scanners/xss/XSS_Scanner_Principles.md) | XSS 三种类型 + 上下文感知原理 + 在野 Payload + WAF 绕过技巧 |
 | [`DirScanner_Principles.md`](scanners/dir_scanner/DirScanner_Principles.md) | 递归扫描策略 + 自定义 404 检测 + 分类字典设计 + 工具对比 |
 | [`SubdomainEnum_Principles.md`](scanners/subdomain_enum/SubdomainEnum_Principles.md) | DNS 解析 + 字典爆破 + 递归发现 + 多 DNS 服务器 + 防御建议 |
 | [`PortScanner_Principles.md`](scanners/port_scanner/PortScanner_Principles.md) | TCP 扫描原理 + SYN/FIN/Xmas/Null Scan + 服务探测 + 时机模板 |
+
+### 🤖 AI 算法原理
+
+| 文档 | 内容 |
+|:-----|:-----|
+| [`Cross_Attention_Principles.md`](llm-tools/attention/Cross_Attention_Principles.md) | 交叉注意力公式推导 + 计算流程 + 典型应用场景 |
 | [`Self_Attention_Principles.md`](llm-tools/attention/Self_Attention_Principles.md) | 自注意力公式推导 + 因果掩码 + 缩放因子 + 复杂度分析 |
 | [`MultiHead_Attention_Principles.md`](llm-tools/attention/MultiHead_Attention_Principles.md) | 多头注意力公式 + 头数与维度关系 + 掩码类型 + 残差+LayerNorm |
 | [`Transformer_Principles.md`](llm-tools/transformer/Transformer_Principles.md) | Transformer 完整架构 + 位置编码 + Pre-LN/Post-LN + 变体对比 |
