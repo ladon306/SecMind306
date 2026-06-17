@@ -3,14 +3,14 @@ AIGC:
   ContentProducer: '001191110102MAD55U9H0F10002'
   ContentPropagator: '001191110102MAD55U9H0F10002'
   Label: '1'
-  ProduceID: 'b349d464-827b-4214-8e05-0630768575dd'
-  PropagateID: 'b349d464-827b-4214-8e05-0630768575dd'
-  ReservedCode1: '2415bbce-c532-4deb-97f1-0499dedcc7a0'
-  ReservedCode2: '2415bbce-c532-4deb-97f1-0499dedcc7a0'
+  ProduceID: '226d136c-9c63-478d-8518-b1c6018ed926'
+  PropagateID: '226d136c-9c63-478d-8518-b1c6018ed926'
+  ReservedCode1: '8aa9e714-ce7d-4acc-b280-691341de6f57'
+  ReservedCode2: '8aa9e714-ce7d-4acc-b280-691341de6f57'
 ---
 
 <p align="center">
-  <img src="assets/banner.jpg" alt="MY-PROJECT Banner" width="100%">
+  <img src="assets/banner.jpg" alt="SecMind306 Banner" width="100%" height="180">
 </p>
 
 <h1 align="center">⚡ SecMind306 ⚡</h1>
