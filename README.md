@@ -46,6 +46,7 @@ AIGC:
 | [`dir_scanner.py`](scanners/dir_scanner/dir_scanner.py) | 智能目录扫描，404 递归 + 自定义 404 检测 + 7 类分类字典（OA/CMS/框架/中间件/敏感/API） + 后缀扩展 | ✅ 可用 |
 | [`subdomain_enum.py`](scanners/subdomain_enum/subdomain_enum.py) | 子域名枚举，200+ 内置字典 + 多 DNS 服务器 + 递归发现 + 多线程，支持 txt/json/csv 导出 | ✅ 可用 |
 | [`port_scanner.py`](scanners/port_scanner/port_scanner.py) | 端口扫描，TCP Connect/SYN + 150+ 端口字典 + 服务探测 + T0-T5 时机模板，支持 common/extended/full | ✅ 可用 |
+| [`java_deser_detect.py`](scanners/java_deser/java_deser_detect.py) | Java 反序列化组件探测（DNS 外带），纯 Python URLDNS payload 生成 + 32 条 Gadget Chain 知识库 + 交互式链路选择，支持 ceye.io / dnslog.cn | ✅ 可用 |
 
 ### 🤖 大模型 & AI 算法
 
@@ -154,6 +155,30 @@ python scanners/port_scanner/port_scanner.py -t 192.168.1.1 --scan-type syn -T 5
 python scanners/port_scanner/port_scanner.py -t 192.168.1.1 -p full -o results.csv --format csv
 ```
 
+**Java 反序列化组件探测：**
+
+```bash
+# 1. 快速验证目标是否存在反序列化漏洞（无需 Java 环境）
+python scanners/java_deser/java_deser_detect.py --urldns http://abc.ceye.io
+
+# 2. 全量组件检测 + 交互式菜单（推荐）
+python scanners/java_deser/java_deser_detect.py --dnslog ceye -i
+
+# 3. 指定 token 和 identifier（ceye.io / dnslog.cn）
+python scanners/java_deser/java_deser_detect.py --dnslog ceye --token <your_token> --identifier <your_id> -i
+
+# 4. 直接生成指定链的利用 payload（跳过检测）
+python scanners/java_deser/java_deser_detect.py --dnslog ceye --token <token> --identifier <id> --chains CC6,CB1
+
+# 5. 查看内置的所有 Gadget Chain
+python scanners/java_deser/java_deser_detect.py --list-chains
+
+# 6. 导出检测报告
+python scanners/java_deser/java_deser_detect.py --dnslog ceye --token <token> --identifier <id> -i --report report.json
+```
+
+> 💡 **交互式菜单**：检测完成后，脚本会自动分析 DNS 回调结果 → 识别可用组件 → 按 CC3/CC4/Spring 分组 → 列出替代链路（如检测到 CC3.x 可用时提示 CC1/CC6 均可选）→ 用户选择后生成最终 RCE payload（.bin + .b64）。
+
 #### 🤖 大模型 & AI 算法
 
 **交叉注意力：**
@@ -217,6 +242,7 @@ python llm-tools/rnn/lstm.py --benchmark
 | [`DirScanner_Principles.md`](scanners/dir_scanner/DirScanner_Principles.md) | 递归扫描策略 + 自定义 404 检测 + 分类字典设计 + 工具对比 |
 | [`SubdomainEnum_Principles.md`](scanners/subdomain_enum/SubdomainEnum_Principles.md) | DNS 解析 + 字典爆破 + 递归发现 + 多 DNS 服务器 + 防御建议 |
 | [`PortScanner_Principles.md`](scanners/port_scanner/PortScanner_Principles.md) | TCP 扫描原理 + SYN/FIN/Xmas/Null Scan + 服务探测 + 时机模板 |
+| [`JavaDeserDetect_Principles.md`](scanners/java_deser/JavaDeserDetect_Principles.md) | Java 序列化协议 + URLDNS 原理 + Gadget Chain 全链路图 + DNS 外带检测原理 |
 
 ### 🤖 AI 算法原理
 
@@ -260,6 +286,9 @@ SecMind306/
 │   └── port_scanner/
 │       ├── port_scanner.py                   # 端口扫描工具
 │       └── PortScanner_Principles.md        # 端口扫描原理说明
+│   └── java_deser/
+│       ├── java_deser_detect.py              # Java 反序列化组件探测工具
+│       └── JavaDeserDetect_Principles.md     # Java 反序列化检测原理说明
 ├── llm-tools/                                # 大模型 & AI 算法
 │   ├── attention/
 │   │   ├── cross_attention.py                # 交叉注意力实现
